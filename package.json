@@ -1,0 +1,44 @@
+{
+    "name": "nimg",
+    "version": "0.1.0",
+    "description": "image viewer",
+    "repository": "https://github.com/nurpax/nimg",
+    "main": "dist/server.js",
+    "bin": {
+        "nimg": "dist/server.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc && cp -R public dist",
+        "lint": "eslint .",
+        "watch:serve": "ts-node ./src/server.ts",
+        "watch": "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"npm run watch:serve -- --source-dir $SOURCEDIR\""
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.8",
+        "@types/morgan": "^1.9.1",
+        "@types/ws": "^7.4.0",
+        "@typescript-eslint/eslint-plugin": "^4.9.1",
+        "@typescript-eslint/parser": "^4.9.1",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^7.15.0",
+        "nodemon": "^2.0.6",
+        "prettier": "2.2.1",
+        "ts-node": "^9.0.0",
+        "typescript": "^4.0.3"
+    },
+    "dependencies": {
+        "commander": "^7.2.0",
+        "express": "^4.17.1",
+        "glob": "^7.1.6",
+        "glob-promise": "^4.1.0",
+        "morgan": "^1.10.0",
+        "node-fetch": "^2.6.1",
+        "node-watch": "^0.7.1",
+        "query-string": "^7.0.0",
+        "showdown": "^1.9.1",
+        "ws": "^7.4.1"
+    },
+    "author": "Janne Hellsten",
+    "license": "ISC"
+}

@@ -1,0 +1,156 @@
+<html>
+    <head>
+        <title>nimg</title>
+        <script src="/static/app.js" async></script>
+        <link rel="shortcut icon" href="/static/favicon.svg" />
+    </head>
+    <style>
+        /* CSS variables to declare theme colors. */
+        :root {
+            --page-background-color: #000;
+            --text-color: #777;
+            --link-color: #559;
+
+            --image-window-margin: 50px;
+            --thumb-area-height: 75px;
+            --error-background-color: #f14668;
+            --error-text-color: white;
+            --error-button-x-color: white;
+            --error-button-background-color: #c23a55;
+            --error-button-background-hover-color: #aa3149;
+        }
+
+        .grid-thumbs {
+            grid-area: thumbs;
+            margin-left: var(--image-window-margin);
+            margin-right: var(--image-window-margin);
+            margin-bottom: var(--image-window-margin);
+            height: var(--thumb-area-height);
+        }
+
+        .grid-image {
+            grid-area: image;
+            width: calc(100vw - var(--image-window-margin) * 2);
+            margin-top: var(--image-window-margin);
+            margin-left: var(--image-window-margin);
+            margin-right: var(--image-window-margin);
+        }
+        .app-container {
+            display: grid;
+            grid-template-columns: auto;
+            grid-template-rows: calc(100vh - var(--thumb-area-height) - var(--image-window-margin)) var(
+                    --thumb-area-height
+                );
+            grid-template-areas:
+                'image'
+                'thumbs';
+        }
+
+        body {
+            line-height: 1.6;
+            font-family: Open Sans, Arial;
+            color: var(--text-color);
+            background-color: var(--page-background-color);
+            padding: 0;
+            margin: 0;
+        }
+
+        h1,
+        h2,
+        h3 {
+            line-height: 1.2;
+            padding-top: 14px;
+        }
+        h1 {
+            font-size: 2em;
+            margin-block-start: 0.67em;
+            margin-block-end: 0.67em;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--link-color);
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #error {
+            display: none;
+        }
+        #error.active {
+            display: flex;
+            width: calc(100% - 20px);
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--error-background-color);
+            color: var(--error-text-color);
+            margin: 0px;
+            margin-top: 2em;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        #error button {
+            color: var(--error-button-x-color);
+            background-color: var(--error-button-background-color);
+            outline: none;
+            border: none;
+            border-radius: 32768px;
+            height: 20px;
+            max-height: 20px;
+            min-height: 20px;
+            width: 20px;
+            max-width: 20px;
+            min-width: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #error button:hover {
+            background-color: var(--error-button-background-hover-color);
+        }
+    </style>
+
+    <body>
+        <div class="app-container">
+            <div class="grid-image">
+                <div
+                    id="image-container"
+                    style="display: flex; flex-direction: column; align-items: flex-start; width: 100%; height: 100%"
+                >
+                    <!-- error will be shown here if class is set to active -->
+                    <div id="error">
+                        <div id="text">Error text</div>
+                        <button>x</button>
+                    </div>
+                    <!-- image view -->
+                    <div
+                        id="main-image"
+                        style="
+                            display: flex;
+                            flex-direction: row;
+                            align-items: flex-start;
+                            width: 1px;
+                            height: 1px;
+                            overflow: hidden;
+                            image-rendering: pixelated;
+                            image-rendering: -moz-crisp-edges;
+                        "
+                    >
+                        <div id="transform" style="transform: scale(1)">
+                            <img style="position: absolute; top: 0px; left: 0px" src="/source/images000000.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-thumbs">
+                <div id="current-filename"></div>
+            </div>
+        </div>
+    </body>
+</html>
