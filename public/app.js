@@ -131,6 +131,7 @@ class Model {
 
     currentFileIdx = 0;
     files = [];
+    thumbs = {};
 
     subscribe = (fn) => {
         this.observers.push(fn);
@@ -161,6 +162,10 @@ class Model {
         await Promise.all([this.loadFileList()]);
     };
 
+    setThumbs(thumbs) {
+        this.thumbs = thumbs;
+    }
+
     setCurrentFile(name) {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] === name) {
@@ -176,7 +181,7 @@ class Model {
         }
 
         this.currentFileIdx += dir;
-        if (this.currentFileIdx <= 0) {
+        if (this.currentFileIdx < 0) {
             this.currentFileIdx = this.files.length - 1;
         }
         if (this.currentFileIdx >= this.files.length) {
@@ -317,6 +322,37 @@ class App {
             const div = document.getElementById('current-filename');
             div.textContent = file;
         }
+        this.renderThumbs();
+    };
+
+    renderThumbs = () => {
+        const thumbs = this.model.thumbs;
+        const div = document.querySelector('#thumb-images');
+        div.innerHTML = '';
+        const file = this.model.currentFile();
+        for (const f of this.model.files) {
+            const img = document.createElement('img');
+            const classes = ['thumbnail'];
+            if (file === f) {
+                classes.push('active');
+            }
+            img.className = classes.join(' ');
+            img.style.width = '50px';
+            img.style.height = '50px';
+            img.draggable = false;
+            if (thumbs) {
+                const src = thumbs[f];
+                // TODO placeholder if thumb is missing
+                img.src = `/cache/${src}`;
+            }
+
+            img.onclick = (ev) => {
+                ev.preventDefault();
+                this.navigateTo(f);
+            };
+
+            div.appendChild(img);
+        }
     };
 
     loadAll = async (selectedFile) => {
@@ -404,6 +440,10 @@ window.addEventListener('load', async (_event) => {
             const e = JSON.parse(event.data);
             if (e.type === 'update' || e.type === 'remove') {
                 await app.loadAll(`/${e.file}`);
+            }
+            if (e.type === 'thumbs-update') {
+                app.model.setThumbs(e.thumbs);
+                app.renderThumbs();
             }
         };
     }

@@ -11,7 +11,7 @@
             --text-color: #777;
             --link-color: #559;
 
-            --image-window-margin: 50px;
+            --image-window-margin: 25px;
             --thumb-area-height: 75px;
             --error-background-color: #f14668;
             --error-text-color: white;
@@ -22,6 +22,7 @@
 
         .grid-thumbs {
             grid-area: thumbs;
+            width: calc(100vw - var(--image-window-margin) * 2);
             margin-left: var(--image-window-margin);
             margin-right: var(--image-window-margin);
             margin-bottom: var(--image-window-margin);
@@ -32,6 +33,7 @@
             grid-area: image;
             width: calc(100vw - var(--image-window-margin) * 2);
             margin-top: var(--image-window-margin);
+            margin-bottom: var(--image-window-margin);
             margin-left: var(--image-window-margin);
             margin-right: var(--image-window-margin);
         }
@@ -113,6 +115,22 @@
         #error button:hover {
             background-color: var(--error-button-background-hover-color);
         }
+
+        img.thumbnail {
+            cursor: pointer;
+            margin-right: 4px;
+            opacity: 0.3;
+            border: 2px solid rgba(0, 0, 0, 0);
+        }
+
+        img.thumbnail:hover {
+            opacity: 0.6;
+            border: 2px solid rgba(255, 255, 255, 0);
+        }
+        img.thumbnail.active {
+            opacity: 1;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
     </style>
 
     <body>
@@ -149,7 +167,21 @@
             </div>
 
             <div class="grid-thumbs">
-                <div id="current-filename"></div>
+                <div
+                    id="thumb-images"
+                    style="
+                        display: flex;
+                        flex-direction: row;
+                        overflow-y: hidden;
+                        width: 100%;
+                        overflow-x: auto;
+                        user-select: none;
+                    "
+                ></div>
+                <div
+                    style="margin-top: 4px; font-family: Arial, Helvetica, sans-serif; font-size: 14px"
+                    id="current-filename"
+                ></div>
             </div>
         </div>
     </body>
