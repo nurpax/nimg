@@ -7,17 +7,20 @@
     <style>
         /* CSS variables to declare theme colors. */
         :root {
-            --page-background-color: #000;
+            --page-bg: #000;
             --text-color: #777;
             --link-color: #559;
 
             --image-window-margin: 25px;
             --thumb-area-height: 75px;
-            --error-background-color: #f14668;
+            --error-bg: #f14668;
             --error-text-color: white;
             --error-button-x-color: white;
-            --error-button-background-color: #c23a55;
-            --error-button-background-hover-color: #aa3149;
+            --error-button-bg: #c23a55;
+            --error-button-bg-hover: #aa3149;
+
+            --scrollbar-bg: #5067747f;
+            --thumb-bg: #506774;
         }
 
         .grid-thumbs {
@@ -52,9 +55,26 @@
             line-height: 1.6;
             font-family: Open Sans, Arial;
             color: var(--text-color);
-            background-color: var(--page-background-color);
+            background-color: var(--page-bg);
             padding: 0;
             margin: 0;
+        }
+
+        #thumb-images::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        #thumb-images {
+            padding-bottom: 1px;
+            scrollbar-width: auto;
+            scrollbar-color: var(--thumb-bg) var(--scrollbar-bg);
+        }
+        #thumb-images::-webkit-scrollbar-track {
+            background: var(--scrollbar-bg);
+        }
+        #thumb-images::-webkit-scrollbar-thumb {
+            background-color: var(--thumb-bg);
+            border: 1px solid var(--scrollbar-bg);
         }
 
         h1,
@@ -86,7 +106,7 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            background-color: var(--error-background-color);
+            background-color: var(--error-bg);
             color: var(--error-text-color);
             margin: 0px;
             margin-top: 2em;
@@ -99,7 +119,7 @@
         }
         #error button {
             color: var(--error-button-x-color);
-            background-color: var(--error-button-background-color);
+            background-color: var(--error-button-bg);
             outline: none;
             border: none;
             border-radius: 32768px;
@@ -113,23 +133,23 @@
             cursor: pointer;
         }
         #error button:hover {
-            background-color: var(--error-button-background-hover-color);
+            background-color: var(--error-button-bg-hover);
         }
 
         img.thumbnail {
             cursor: pointer;
             margin-right: 4px;
-            opacity: 0.3;
-            border: 2px solid rgba(0, 0, 0, 0);
+            opacity: 0.5;
+            border: 1px solid rgba(0, 0, 0, 0);
         }
 
         img.thumbnail:hover {
-            opacity: 0.6;
-            border: 2px solid rgba(255, 255, 255, 0);
+            opacity: 0.8;
+            border: 1px solid rgba(255, 255, 255, 0);
         }
         img.thumbnail.active {
             opacity: 1;
-            border: 2px solid rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
     </style>
 

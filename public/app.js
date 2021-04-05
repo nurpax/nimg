@@ -175,18 +175,19 @@ class Model {
         }
     }
 
+    // Negative idx indexes backwards from the end of the files list.
+    setCurrentImageIndex(idx) {
+        if (idx >= this.files.length) {
+            idx = 0;
+        }
+        this.currentFileIdx = idx < 0 ? this.files.length + idx : idx;
+    }
+
     flipImages = (dir) => {
         if (this.files.length === 0) {
             return;
         }
-
-        this.currentFileIdx += dir;
-        if (this.currentFileIdx < 0) {
-            this.currentFileIdx = this.files.length - 1;
-        }
-        if (this.currentFileIdx >= this.files.length) {
-            this.currentFileIdx = 0;
-        }
+        this.setCurrentImageIndex(this.currentFileIdx + dir);
     };
 
     currentFile = () => {
@@ -224,6 +225,11 @@ class App {
 
     flipImages = (dir) => {
         this.model.flipImages(dir);
+        this.refresh();
+    };
+
+    setCurrentImageIndex = (idx) => {
+        this.model.setCurrentImageIndex(idx);
         this.refresh();
     };
 
@@ -302,6 +308,10 @@ class App {
                 return this.flipImages(-1);
             case 'ArrowRight':
                 return this.flipImages(1);
+            case 'Home':
+                return this.setCurrentImageIndex(0);
+            case 'End':
+                return this.setCurrentImageIndex(-1);
         }
     };
 
@@ -330,11 +340,13 @@ class App {
         const div = document.querySelector('#thumb-images');
         div.innerHTML = '';
         const file = this.model.currentFile();
+        let activeElt = null;
         for (const f of this.model.files) {
             const img = document.createElement('img');
             const classes = ['thumbnail'];
             if (file === f) {
                 classes.push('active');
+                activeElt = img;
             }
             img.className = classes.join(' ');
             img.style.width = '50px';
@@ -352,6 +364,9 @@ class App {
             };
 
             div.appendChild(img);
+        }
+        if (activeElt !== null) {
+            activeElt.scrollIntoView();
         }
     };
 
